@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -34,21 +33,18 @@ public class RestService {
     }
 
     @Async
-    public CompletableFuture<ResponseBodyEmitter> generateAsync(final ResponseBodyEmitter responseBodyEmitter, long count) {
-        LongStream.range(0, count)
-                .map(i -> id.getAndIncrement())
-                .mapToObj(this::generate)
-                .forEach(i -> {
-                    try {
-                        responseBodyEmitter.send(i, MediaType.APPLICATION_JSON);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        responseBodyEmitter.completeWithError(e);
-                    }
-                });
-
-        responseBodyEmitter.complete();
-        return CompletableFuture.completedFuture(responseBodyEmitter);
+    public void generateAsync(final ResponseBodyEmitter responseBodyEmitter, long count) {
+        try {
+            for (int i = 0; i < count; i++) {
+                final RestResponse restResponse = generate(id.getAndIncrement());
+                responseBodyEmitter.send(restResponse, MediaType.APPLICATION_JSON);
+            }
+            responseBodyEmitter.complete();
+        } catch (IOException e) {
+            log.error("Catch called with e: ", e);
+//            responseBodyEmitter.completeWithError(e);
+            responseBodyEmitter.complete();
+        }
     }
 
     private RestResponse generate(long id) {

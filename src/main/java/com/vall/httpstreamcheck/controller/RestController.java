@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 /**
  *
@@ -50,7 +49,7 @@ public class RestController {
         Assert.isTrue(count > 0, "count should > 0");
 
 //        final ResponseBodyEmitter emitter = new ResponseBodyEmitter();
-        final ResponseBodyEmitter emitter = new SseEmitter();
+        final ResponseBodyEmitter emitter = new SseEmitter(-1L);
 
         restService.generateAsync(emitter, count);
 
