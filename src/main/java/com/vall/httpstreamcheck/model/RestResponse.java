@@ -1,6 +1,8 @@
 package com.vall.httpstreamcheck.model;
 
 /**
+ *
+ *
  * Created by Vall on 02.01.2018.
  */
 public class RestResponse {
