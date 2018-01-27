@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -65,35 +66,14 @@ public class TestRowGeneration {
                 .andReturn();
 
         mvcResult.getRequest().getAsyncContext().setTimeout(10000);
-
-        Thread.sleep(8000);
-
         mvcResult.getAsyncResult();
 
-        mockMvc.perform(asyncDispatch(mvcResult))
-
-//                .andExpect(content().string(
-//                        "[" +
-//                                "{\"id\":1000,\"payload\":\"Fake payload for 1000\"}," +
-//                                "{\"id\":1001,\"payload\":\"Fake payload for 1001\"}," +
-//                                "{\"id\":1002,\"payload\":\"Fake payload for 1002\"}" +
-//                                "]"
-//                ))
-        ;
-
-        //TODO: implement
-//        mockMvc.perform(get("/regular/generateStream").param("count", "3"))
-//                .andExpect(status().isOk())
-//                .andExpect(request().asyncStarted())
-//                .andExpect(header().string("Content-Type", "text/event-stream;charset=UTF-8"))
-//                .andExpect(request().asyncResult(instanceOf(Object.class)))
-//                .andExpect(content().string(
-//                        "[" +
-//                                "{\"id\":1000,\"payload\":\"Fake payload for 1000\"}," +
-//                                "{\"id\":1001,\"payload\":\"Fake payload for 1001\"}," +
-//                                "{\"id\":1002,\"payload\":\"Fake payload for 1002\"}" +
-//                                "]"
-//                ));
+        //TODO: need to refactor
+        assertEquals("data:{\"id\":1000,\"payload\":\"Fake payload for 1000\"}\n" +
+                "\n" +
+                "data:{\"id\":1001,\"payload\":\"Fake payload for 1001\"}\n" +
+                "\n" +
+                "data:{\"id\":1002,\"payload\":\"Fake payload for 1002\"}\n\n", mvcResult.getResponse().getContentAsString());
 
     }
 
