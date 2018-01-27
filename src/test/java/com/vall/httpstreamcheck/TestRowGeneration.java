@@ -63,8 +63,16 @@ public class TestRowGeneration {
 
     @Test
     public void testAsyncStream() throws Exception {
+        testAsynchronously("/regular/generateStream");
+    }
 
-        final MvcResult mvcResult = mockMvc.perform(get("/regular/generateStream").param("count", "3"))
+    @Test
+    public void testReactorStream() throws Exception {
+        testAsynchronously("/regular/generateStreamReactive");
+    }
+
+    private void testAsynchronously(String uri) throws Exception {
+        final MvcResult mvcResult = mockMvc.perform(get(uri).param("count", "3"))
                 .andExpect(status().isOk())
                 .andExpect(request().asyncStarted())
                 .andExpect(header().string("Content-Type", "text/event-stream;charset=UTF-8"))
@@ -87,6 +95,7 @@ public class TestRowGeneration {
         new JsonPathExpectationsHelper("$.payload").assertValue(jsonList.get(1), "Fake payload for 1001");
         new JsonPathExpectationsHelper("$.id").assertValue(jsonList.get(2), "1002");
         new JsonPathExpectationsHelper("$.payload").assertValue(jsonList.get(2), "Fake payload for 1002");
+
     }
 
 }

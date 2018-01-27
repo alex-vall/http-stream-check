@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -56,6 +57,30 @@ public class RestController {
         log.info("Return emmiter from controller");
 
         return emitter;
+    }
+
+    @RequestMapping(value = "/generateStreamReactive")
+    public ResponseBodyEmitter generateStreamReactive(@RequestParam(value = "count" , defaultValue = "1") Long count) {
+
+        Assert.isTrue(count > 0, "count should > 0");
+
+        final ResponseBodyEmitter emitter = new SseEmitter(-1L);
+
+        restService.getRestResponseItems(count, emitter::complete)
+                .subscribe(i -> emmitResponse(emitter, i));
+
+        return emitter;
+    }
+
+    private void emmitResponse(ResponseBodyEmitter emitter, RestResponse response) {
+
+        try {
+            emitter.send(response);
+        } catch (IOException e) {
+            log.error("Send object failed: ", e);
+            emitter.completeWithError(e);
+        }
+
     }
 
 

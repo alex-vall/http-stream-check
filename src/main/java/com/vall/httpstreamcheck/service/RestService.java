@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
+import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,6 +46,12 @@ public class RestService {
 //            responseBodyEmitter.completeWithError(e);
             responseBodyEmitter.complete();
         }
+    }
+
+    public Flux<RestResponse> getRestResponseItems(long count, Runnable completeCallback) {
+        return Flux.range(0, Math.toIntExact(count))
+                .map(i -> generate(id.getAndIncrement()))
+                .doOnComplete(completeCallback);
     }
 
     private RestResponse generate(long id) {
