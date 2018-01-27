@@ -7,8 +7,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.util.JsonPathExpectationsHelper;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -68,14 +73,20 @@ public class TestRowGeneration {
         mvcResult.getRequest().getAsyncContext().setTimeout(10000);
         mvcResult.getAsyncResult();
 
-        //TODO: need to refactor
-        assertEquals("data:{\"id\":1000,\"payload\":\"Fake payload for 1000\"}\n" +
-                "\n" +
-                "data:{\"id\":1001,\"payload\":\"Fake payload for 1001\"}\n" +
-                "\n" +
-                "data:{\"id\":1002,\"payload\":\"Fake payload for 1002\"}\n\n", mvcResult.getResponse().getContentAsString());
+        final String responseContent = mvcResult.getResponse().getContentAsString();
 
+        final List<String> jsonList = Arrays.stream(responseContent.split("\n\n"))
+                .map(i -> i.replace("data:", ""))
+                .collect(Collectors.toList());
+
+        assertEquals(3, jsonList.size());
+
+        new JsonPathExpectationsHelper("$.id").assertValue(jsonList.get(0), "1000");
+        new JsonPathExpectationsHelper("$.payload").assertValue(jsonList.get(0), "Fake payload for 1000");
+        new JsonPathExpectationsHelper("$.id").assertValue(jsonList.get(1), "1001");
+        new JsonPathExpectationsHelper("$.payload").assertValue(jsonList.get(1), "Fake payload for 1001");
+        new JsonPathExpectationsHelper("$.id").assertValue(jsonList.get(2), "1002");
+        new JsonPathExpectationsHelper("$.payload").assertValue(jsonList.get(2), "Fake payload for 1002");
     }
-
 
 }
