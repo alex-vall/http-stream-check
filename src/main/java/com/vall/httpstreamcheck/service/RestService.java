@@ -54,6 +54,7 @@ public class RestService {
                 .map(i -> generate(id.getAndIncrement()))
                 .doOnComplete(responseBodyEmitter::complete);
 
+//        flux.toStream().forEach(i -> emmitResponse(responseBodyEmitter, i));
         flux.subscribe(i -> emmitResponse(responseBodyEmitter, i));
     }
 

@@ -68,6 +68,7 @@ public class RestController {
 
         restService.getRestResponseItems(count, emitter);
 
+        log.info("Return emitter");
         return emitter;
     }
 
