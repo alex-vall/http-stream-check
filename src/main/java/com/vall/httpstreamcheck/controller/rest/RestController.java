@@ -66,22 +66,12 @@ public class RestController {
 
         final ResponseBodyEmitter emitter = new SseEmitter(-1L);
 
-        restService.getRestResponseItems(count, emitter::complete)
-                .subscribe(i -> emmitResponse(emitter, i));
+        restService.getRestResponseItems(count, emitter);
 
         return emitter;
     }
 
-    private void emmitResponse(ResponseBodyEmitter emitter, RestResponse response) {
 
-        try {
-            emitter.send(response);
-        } catch (IOException e) {
-            log.error("Send object failed: ", e);
-            emitter.completeWithError(e);
-        }
-
-    }
 
 
 }

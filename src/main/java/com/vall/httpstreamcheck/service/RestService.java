@@ -48,10 +48,23 @@ public class RestService {
         }
     }
 
-    public Flux<RestResponse> getRestResponseItems(long count, Runnable completeCallback) {
-        return Flux.range(0, Math.toIntExact(count))
+    public void getRestResponseItems(long count, final ResponseBodyEmitter responseBodyEmitter) {
+
+        final Flux<RestResponse> flux = Flux.range(0, Math.toIntExact(count))
                 .map(i -> generate(id.getAndIncrement()))
-                .doOnComplete(completeCallback);
+                .doOnComplete(responseBodyEmitter::complete);
+
+        flux.subscribe(i -> emmitResponse(responseBodyEmitter, i));
+    }
+
+    private void emmitResponse(ResponseBodyEmitter emitter, RestResponse response) {
+
+        try {
+            emitter.send(response);
+        } catch (IOException e) {
+            log.error("Send object failed: ", e);
+            emitter.completeWithError(e);
+        }
     }
 
     private RestResponse generate(long id) {
