@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,9 +53,9 @@ public class RestService {
 
         final Flux<RestResponse> flux = Flux.range(0, Math.toIntExact(count))
                 .map(i -> generate(id.getAndIncrement()))
-                .doOnComplete(responseBodyEmitter::complete);
+                .doOnComplete(responseBodyEmitter::complete)
+                .subscribeOn(Schedulers.newSingle("reactor-scheduler"));
 
-//        flux.toStream().forEach(i -> emmitResponse(responseBodyEmitter, i));
         flux.subscribe(i -> emmitResponse(responseBodyEmitter, i));
     }
 
