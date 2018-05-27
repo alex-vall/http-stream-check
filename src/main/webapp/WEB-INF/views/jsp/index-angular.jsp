@@ -5,21 +5,27 @@
   Time: 15:50
   To change this template use File | Settings | File Templates.
 --%>
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
-<%--<html ng-app="streamApp">--%>
+<%--<html lang="en" ng-app="app" class="no-js">--%>
 <html ng-app>
 <head>
     <title>Angular JS App</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <%--<script src="resources/js/app.js"/>--%>
-    <%--<link rel="stylesheet" href="resources/css/some.css">--%>
-</head>
-<%--<body ng-controller="HelloWorldController">--%>
-<body >
+    <meta charset="utf-8">
+    <script src="/webjars/angularjs/1.4.9/angular.js"></script>
+    <script src="/webjars/angularjs/1.4.9/angular-resource.js"></script>
+    <script src="/webjars/angularjs/1.4.9/angular-route.js"></script>
+    <script src="/webjars/angular-ui-bootstrap/2.2.0/ui-bootstrap.js"></script>
+    <script src="/webjars/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.js"></script>
 
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
+
+    <%--<script src="js/app.js"/>--%>
+</head>
+<body>
+<%--<body>--%>
 
 <p>Nothing here {{'yet' + '!'}}</p>
-<%--<div class="some-style">--%>
+
+<%--<div>--%>
     <%--<p>Hello, {{name}}!</p>--%>
 <%--</div>--%>
 

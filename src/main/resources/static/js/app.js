@@ -1,5 +1,7 @@
-var app = angular.module('streamApp', []);
+'use strict';
+
+var app = angular.module('app', []);
 
 app.controller('HelloWorldController', function HelloWorldController($scope) {
     $scope.name = 'Some name';
-})
+});
