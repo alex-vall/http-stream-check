@@ -8,7 +8,7 @@
 <script>
     function sendRequest(){
         if(typeof(EventSource) !== "undefined") {
-            var source = new EventSource("/regular/generateStreamReactive?count=200");
+            var source = new EventSource("/regular/generateStreamReactive?count=20");
             source.onmessage = function(event) {
                 document.getElementById("sseDiv").innerHTML = event.data;
             };

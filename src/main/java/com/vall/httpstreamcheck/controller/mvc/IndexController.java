@@ -19,4 +19,9 @@ public class IndexController {
         return "index";
     }
 
+    @RequestMapping(value = "/viewAngular", method = RequestMethod.GET)
+    public String indexAngular() {
+        return "index-angular";
+    }
+
 }
