@@ -2,6 +2,10 @@
 
 var app = angular.module('app', []);
 
-app.controller('HelloWorldController', function HelloWorldController($scope) {
-    $scope.someUserName = 'Vasily Terkin';
+app.controller('SSEDataController', function SSEDataController($scope) {
+    $scope.eventDataObject =
+        {
+            id: '1247',
+            payload: '"Fake payload for 1247'
+        }
 });

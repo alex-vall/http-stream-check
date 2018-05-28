@@ -6,7 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <html lang="en" ng-app="app" class="no-js">
-<%--<html ng-app>--%>
 <head>
     <title>Angular JS App</title>
     <meta charset="utf-8">
@@ -20,14 +19,19 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/webjars/bootstrap/3.3.7/css/bootstrap.css">
 
 </head>
-<body ng-controller="HelloWorldController">
-<%--<body>--%>
+<body ng-controller="SSEDataController">
 
-<p>Nothing here {{'yet' + '!'}}</p>
+<p>SSE object</p>
 
 <div>
-    <p>Hello, {{someUserName}}!</p>
+    <p>Object ID: {{eventDataObject.id}}</p>
+    <p>Object Payload: {{eventDataObject.payload}}</p>
 </div>
+
+<table>
+    <tr><th>Row number</th></tr>
+    <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{i}}</td></tr>
+</table>
 
 </body>
 </html>
