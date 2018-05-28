@@ -3,5 +3,5 @@
 var app = angular.module('app', []);
 
 app.controller('HelloWorldController', function HelloWorldController($scope) {
-    $scope.name = 'Some name';
+    $scope.someUserName = 'Vasily Terkin';
 });
