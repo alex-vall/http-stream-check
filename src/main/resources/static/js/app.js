@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', []);
+var app = angular.module('streamApp', []);
 
 app.controller('SSEDataController', function SSEDataController($scope) {
     $scope.eventDataObject =
