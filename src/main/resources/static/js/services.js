@@ -4,24 +4,24 @@
 
 var httpStreamServices = angular.module('httpStreamServices', []);
 
-httpStreamServices.factory('SseStream', function ($rootScope) {
+httpStreamServices.factory('SseStream', function () {
 
     console.log("Service created");
 
+    // var source = new EventSource("/regular/generateStream?count=20");
     var source = new EventSource("/regular/generateStreamReactive?count=20");
 
-    var data = '{"id":1000,"payload":"Fake payload for 1000"}';
+    source.oncomplete = function () {
+        console.log("complete");
+    };
 
-    source.onmessage = function(event) {
-        // $scope.eventDataObject = JSON.parse(event.data);
-        data = event.data;
-        $rootScope.$apply();
-        console.log(data);
+    source.onerror = function () {
+        console.log("error");
     };
 
     return {
-        getEventData: function () {
-            return data;
+        getEventSource: function () {
+            return source;
         }
     };
 });
