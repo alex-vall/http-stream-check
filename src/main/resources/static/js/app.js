@@ -1,5 +1,5 @@
 'use strict';
 
-angular.module('streamApp', ['streamAppControllers']);
+angular.module('streamApp', ['streamAppControllers', 'httpStreamServices']);
 
 

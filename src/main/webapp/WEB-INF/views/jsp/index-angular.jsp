@@ -16,6 +16,7 @@
     <script src="${pageContext.request.contextPath}/webjars/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
     <script src="${pageContext.request.contextPath}js/app.js"></script>
     <script src="${pageContext.request.contextPath}js/controllers.js"></script>
+    <script src="${pageContext.request.contextPath}js/services.js"></script>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/webjars/bootstrap/4.1.0/css/bootstrap.css">
 
