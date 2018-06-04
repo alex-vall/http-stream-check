@@ -8,20 +8,35 @@ httpStreamServices.factory('SseStream', function () {
 
     console.log("Service created");
 
-    // var source = new EventSource("/regular/generateStream?count=20");
-    var source = new EventSource("/regular/generateStreamReactive?count=20");
-
-    source.oncomplete = function () {
-        console.log("complete");
-    };
-
-    source.onerror = function () {
-        console.log("error");
-    };
+    var isBusy = false;
 
     return {
-        getEventSource: function () {
+        acceptEvents: function (count, onEvent) {
+
+            console.log("getEventSource called");
+
+            var source = new EventSource("/regular/generateStreamReactive?count=" + count);
+
+            source.onmessage = onEvent;
+
+            source.oncomplete = function () {
+                console.log("complete");
+                source.close();
+                isBusy = false;
+            };
+
+            source.onerror = function () {
+                console.log("error");
+                source.close();
+                isBusy = false;
+            };
+
+            isBusy = true;
+
             return source;
+        },
+        isEventsInProgress: function () {
+            return isBusy;
         }
     };
 });

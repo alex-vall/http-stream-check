@@ -30,10 +30,22 @@
     <p>Object Payload: {{eventDataObject.payload}}</p>
 </div>
 
-<table>
-    <tr><th>Row number</th></tr>
-    <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{i}}</td></tr>
-</table>
+<div>
+    <label>
+        <input ng-model="eventsCount">
+    </label>
+</div>
+
+<div>
+    <button ng-click="onClick()">
+        Send
+    </button>
+</div>
+
+<%--<table>--%>
+    <%--<tr><th>Row number</th></tr>--%>
+    <%--<tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{i}}</td></tr>--%>
+<%--</table>--%>
 
 </body>
 </html>

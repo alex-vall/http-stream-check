@@ -6,15 +6,22 @@ var streamAppControllers = angular.module('streamAppControllers', []);
 
 streamAppControllers.controller('SSEDataController', function SSEDataController($scope, SseStream) {
 
-    var eventSource = SseStream.getEventSource();
-
-
-
-    eventSource.onmessage = function(event) {
-        $scope.eventDataObject = JSON.parse(event.data.toString());
-        $scope.$apply();
-
-        console.log('Event id: ' + event.id);
+    $scope.eventDataObject = {
+        id : '0',
+        payload: ''
     };
+
+    $scope.eventsCount = 20;
+
+   $scope.onClick = function () {
+       if (!SseStream.isEventsInProgress()) {
+           SseStream.acceptEvents($scope.eventsCount,
+               function(event) {
+                   console.log('Event with id: ' + event.id);
+                   $scope.eventDataObject = JSON.parse(event.data.toString());
+                   $scope.$apply();
+               });
+       }
+   }
 
 });
